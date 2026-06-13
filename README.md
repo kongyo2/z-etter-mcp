@@ -55,8 +55,6 @@ env = { ZETTER_API_KEY = "zetter_hogefuga" }
 
 ### Cline
 
-VS Code 拡張 `saoudrizwan.claude-dev`（`cline_mcp_settings.json`）:
-
 ```json
 {
   "mcpServers": {
