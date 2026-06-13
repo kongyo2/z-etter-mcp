@@ -1,0 +1,63 @@
+{
+  "name": "@kongyo2/z-etter-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for posting to Zetter (z-etter.com), a Japanese microblogging SNS.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "modelcontextprotocol",
+    "zetter",
+    "z-etter",
+    "sns",
+    "claude",
+    "ai"
+  ],
+  "license": "MIT",
+  "author": "kongyo2",
+  "homepage": "https://github.com/kongyo2/z-etter-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kongyo2/z-etter-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kongyo2/z-etter-mcp/issues"
+  },
+  "type": "module",
+  "bin": {
+    "z-etter-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint --format agent",
+    "lint:fix": "oxlint --fix",
+    "lint:strict": "oxlint --deny-warnings",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "oxlint": "^1.69.0",
+    "prettier": "^3.8.4",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0",
+    "vitest": "^4.1.8"
+  }
+}
