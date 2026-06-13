@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Zetter ロゴ" width="120" height="120" />
+</p>
+
 # @kongyo2/z-etter-mcp
 
 ![npm](https://img.shields.io/npm/v/@kongyo2/z-etter-mcp)
