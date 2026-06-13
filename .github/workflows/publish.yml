@@ -1,0 +1,55 @@
+name: Publish
+
+# Manually triggered release: publishes the version currently in
+# package.json to npm. Bump the version (and commit it) before running.
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Run every step but skip the actual npm publish"
+        type: boolean
+        default: false
+
+# Never run two publishes at once, and don't cancel one mid-flight.
+concurrency:
+  group: publish-${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write # required for npm provenance
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify version is not already published
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "::error::$NAME@$VERSION is already on npm. Bump the version in package.json first."
+            exit 1
+          fi
+          echo "Will publish $NAME@$VERSION"
+
+      - run: npm ci
+
+      # Quality gates: don't ship anything that wouldn't pass CI.
+      - run: npm run lint:strict
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run build
+
+      - name: Publish
+        run: npm publish --provenance --access public ${{ inputs.dry-run && '--dry-run' || '' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
