@@ -12,7 +12,7 @@
 
 ## セットアップ
 
-[Zetter の設定画面](https://z-etter.com/settings/api-keys) で API キーを発行し、以下のコマンドの `zetter_hogefuga` を自分のキーに置き換えて実行してください。
+各 MCP ホストでの設定方法です。あらかじめ [Zetter の設定画面](https://z-etter.com/settings/api-keys) で API キーを発行し、各設定内の `zetter_hogefuga` を自分のキーに置き換えてください。
 
 ### Claude Code
 
@@ -24,6 +24,52 @@ claude mcp add --transport stdio --scope user --env ZETTER_API_KEY=zetter_hogefu
 
 ```bash
 codex mcp add --env ZETTER_API_KEY=zetter_hogefuga zetter -- npx -y @kongyo2/z-etter-mcp
+```
+
+`~/.codex/config.toml` に直接記述する場合:
+
+```toml
+[mcp_servers.zetter]
+command = "npx"
+args = ["-y", "@kongyo2/z-etter-mcp"]
+env = { ZETTER_API_KEY = "zetter_hogefuga" }
+```
+
+### Claude Desktop
+
+`%APPDATA%\Claude\claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "zetter": {
+      "command": "npx",
+      "args": ["-y", "@kongyo2/z-etter-mcp"],
+      "env": {
+        "ZETTER_API_KEY": "zetter_hogefuga"
+      }
+    }
+  }
+}
+```
+
+### Cline
+
+VS Code 拡張 `saoudrizwan.claude-dev`（`cline_mcp_settings.json`）:
+
+```json
+{
+  "mcpServers": {
+    "zetter": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@kongyo2/z-etter-mcp"],
+      "env": {
+        "ZETTER_API_KEY": "zetter_hogefuga"
+      }
+    }
+  }
+}
 ```
 
 ## ライセンス
